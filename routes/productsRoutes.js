@@ -33,7 +33,7 @@ router.post("/products", async (req, res) => {
 // READ - Get all products with pagination, sorting, and filtering
 router.get("/products", async (req, res) => {
   try {
-    let { page = 1, limit = 10, sort, category } = req.query;
+    let { page = 1, limit = 10, sort, category, name } = req.query;
 
     page = parseInt(page);
     limit = parseInt(limit);
@@ -41,6 +41,10 @@ router.get("/products", async (req, res) => {
     let filter = {};
     if (category) {
       filter.category = category; 
+    }
+
+    if (name) {
+      filter.name = new RegExp(name, "i");
     }
 
     let query = Product.find(filter);
